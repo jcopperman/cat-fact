@@ -15,7 +15,7 @@ jobs:
 
       - name: Fetch Dad Joke
         env:
-          DAD_JOKES_API_KEY: ${{ secrets.DAD_JOKES_API_KEY }} # Use the secret here
+          DAD_JOKES_API_KEY: ${{ secrets.API_KEY }} # Use the secret here
         run: |
           # Access the API key as an environment variable
-          echo "Using API Key: $DAD_JOKES_API_KEY"
+          echo "Using API Key: $API_KEY"
