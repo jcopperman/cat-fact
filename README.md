@@ -1,6 +1,6 @@
 # Cat Facts Web App
 
-This simple web application fetches and displays cat facts along with cat images. You can click a button to get a new cat fact, and both the fact and the image will be refreshed.
+This simple web application fetches and displays cat facts along with cat images. You can click a button to get a new cat fact, and both the fact and the image will be refreshed. Currently being served on Github pages at https://jcopperman.github.io/
 
 ## Features
 
