@@ -23,11 +23,11 @@
     <script>
         async function getDadJoke() {
             const url = 'https://dad-jokes.p.rapidapi.com/random/joke';
-            const apiKey = process.env.DAD_JOKE_API_KEY;
+            const apiKey = process.env.API_KEY;
             const options = {
                 method: 'GET',
                 headers: {
-                    'X-RapidAPI-Key': DAD_JOKE_API_KEY,
+                    'X-RapidAPI-Key': API_KEY,
                     'X-RapidAPI-Host': 'dad-jokes.p.rapidapi.com'
                 }
             };
