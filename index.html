@@ -10,7 +10,7 @@
             background-color: #f2f2f2;
         }
 
-        .fact-box {
+        .fact-box, .image-box {
             background-color: #fff;
             border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -18,14 +18,28 @@
             margin: 20px auto;
             text-align: center;
             max-width: 400px;
+            position: relative;
         }
 
         .fact-text {
             font-size: 18px;
         }
 
-        .btn-refresh {
+        .cat-image {
+            max-width: 100%;
+            height: auto;
             margin-top: 10px;
+        }
+
+        .spinner-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
@@ -34,28 +48,73 @@
         <div class="row">
             <div class="col-12">
                 <div class="fact-box">
-                    <p class="fact-text" id="catFact">Loading...</p>
-                    <button class="btn btn-primary btn-refresh" onclick="getCatFact()">Get another cat fact!</button>
+                    <div class="spinner-border text-primary spinner-container" role="status" id="factSpinner">
+                        <span class="sr-only"></span>
+                    </div>
+                    <p class="fact-text" id="catFact"></p>
+                    <button class="btn btn-primary btn-refresh" onclick="getCatFactAndImage()">Get another cat fact!</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="image-box">
+                    <div class="spinner-border text-primary spinner-container" role="status" id="imageSpinner">
+                        <span class="sr-only"></span>
+                    </div>
+                    <img src="" alt="Cat Image" class="cat-image" id="catImage">
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Function to fetch a cat fact and update the fact box
+        // Function to fetch a cat fact
         function getCatFact() {
-            fetch('https://catfact.ninja/fact')
+            return fetch('https://catfact.ninja/fact')
                 .then(response => response.json())
-                .then(data => {
-                    document.getElementById('catFact').textContent = data.fact;
-                })
+                .then(data => data.fact)
                 .catch(error => {
                     console.error('Error fetching cat fact:', error);
+                    return 'Failed to fetch a cat fact.';
                 });
         }
 
-        // Initial call to fetch a cat fact
-        getCatFact();
+        // Function to fetch a cat image
+        function getCatImage() {
+            return fetch('https://cataas.com/cat')
+                .then(response => response.url)
+                .catch(error => {
+                    console.error('Error fetching cat image:', error);
+                    return '';
+                });
+        }
+
+        // Function to hide a spinner by element ID
+        function hideSpinner(id) {
+            const spinner = document.getElementById(id);
+            if (spinner) {
+                spinner.classList.add('hidden');
+            }
+        }
+
+        // Function to get a new cat fact and image and update the content
+        async function getCatFactAndImage() {
+            try {
+                const [fact, imageUrl] = await Promise.all([getCatFact(), getCatImage()]);
+
+                // Update the content and hide spinners
+                document.getElementById('catFact').textContent = fact;
+                document.getElementById('catImage').src = imageUrl;
+                hideSpinner('factSpinner');
+                hideSpinner('imageSpinner');
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Initial call to load the cat fact and image
+        getCatFactAndImage();
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
